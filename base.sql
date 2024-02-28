@@ -15,3 +15,6 @@ create table users(
 	created_at timestamptz default current_timestamp,
 	updated_at timestamptz
 );
+
+alter table users
+add column sub_title varchar(256);

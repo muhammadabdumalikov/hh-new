@@ -108,6 +108,7 @@ export class AppController {
       profile_picture: profile.profile_picture,
       skills: { data: profile.skills },
       summary: profile.summary,
+      sub_title: profile.sub_title,
       birth_date: profile.birth_date,
       location: { data: profile.location },
       position_groups: { data: profile.position_groups },
