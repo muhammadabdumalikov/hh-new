@@ -61,6 +61,7 @@ export class AppController {
   @Get('profile')
   async getWithRapidApi(@Query() param) {
     if (!param?.url) throw new BadRequestException();
+    console.log(param.url);
 
     const profileId = (param.url as string)?.split('/in/')[1].split('/')[0];
 
