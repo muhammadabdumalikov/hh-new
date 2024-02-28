@@ -18,7 +18,7 @@ export class AppController {
     private readonly userService: UserService,
     private readonly userRepo: UserRepo,
     private readonly customHttpService: CustomHttpService,
-  ) { }
+  ) {}
 
   @Get()
   @Render('index')
@@ -62,17 +62,19 @@ export class AppController {
   async getWithRapidApi(@Query() param) {
     if (!param?.url) throw new BadRequestException();
 
-    const profileId = (param.url as string).split('/in/')[1].split('/')[0];
+    const profileId = (param.url as string)?.split('/in/')[1].split('/')[0];
 
-    const profileInDb = await this.userService.getByLinkedinProfileId(
-      profileId,
+    const forProfileUrlCheck = (param.url as string)?.split(
+      'https://www.linkedin.com',
     );
-
-    const forProfileUrlCheck = (param.url as string).split('https://www.linkedin.com');
 
     if (!forProfileUrlCheck[1].startsWith('/in/')) {
       throw new HttpException('Please input only profile url', 400);
     }
+
+    const profileInDb = await this.userService.getByLinkedinProfileId(
+      profileId,
+    );
 
     if (!isEmpty(profileInDb)) {
       throw new HttpException('User already exist', 409);
