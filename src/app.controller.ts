@@ -77,7 +77,7 @@ export class AppController {
     );
 
     if (!isEmpty(profileInDb)) {
-      return { ...profileInDb, company: profileInDb?.sub_title };
+      return profileInDb;
       // throw new HttpException('User already exist', 409);
     }
 
