@@ -11,6 +11,7 @@ import { CustomHttpService } from './shared/customHttpService';
 import { UserService } from './domain/users/user.service';
 import { isEmpty } from 'lodash';
 import { UserRepo } from './domain/users/user.repo';
+import { formatLinkedinBirthDate } from './shared/helpers';
 
 @Controller()
 export class AppController {
@@ -101,7 +102,7 @@ export class AppController {
       },
     );
 
-    if (!(profile?.profile_id || profile.first_name)) {
+    if ((profile?.profile_id || profile.first_name)) {
       throw new HttpException('User not found', 404);
     }
 
@@ -113,7 +114,7 @@ export class AppController {
       skills: { data: profile.skills },
       summary: profile.summary,
       sub_title: profile.sub_title,
-      birth_date: profile.birth_date,
+      birth_date: formatLinkedinBirthDate(profile.birth_date),
       location: { data: profile.location },
       position_groups: { data: profile.position_groups },
       education: { data: profile.education },
