@@ -4,7 +4,7 @@ export function formatLinkedinBirthDate(dateObj) {
   const month = dateObj?.month;
   const year = dateObj?.year;
 
-  if (!day && !month && !year) {
+  if (!day || !month || !year) {
     return null;
   }
   // Ensure day and month are formatted as two digits with leading zeros
