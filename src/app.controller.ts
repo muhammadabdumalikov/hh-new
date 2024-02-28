@@ -102,7 +102,7 @@ export class AppController {
       },
     );
 
-    if ((profile?.profile_id || profile.first_name)) {
+    if (!(profile?.profile_id || profile.first_name)) {
       throw new HttpException('User not found', 404);
     }
 
