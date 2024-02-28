@@ -77,7 +77,8 @@ export class AppController {
     );
 
     if (!isEmpty(profileInDb)) {
-      throw new HttpException('User already exist', 409);
+      return profileInDb;
+      // throw new HttpException('User already exist', 409);
     }
 
     const profile = await this.customHttpService.post(
