@@ -61,7 +61,6 @@ export class AppController {
   @Get('profile')
   async getWithRapidApi(@Query() param) {
     if (!param?.url) throw new BadRequestException();
-    console.log(param.url);
 
     const profileId = (param.url as string)?.split('/in/')[1]?.split('/')[0];
 
@@ -69,7 +68,7 @@ export class AppController {
       'https://www.linkedin.com',
     );
 
-    if (!forProfileUrlCheck[1].startsWith('/in/')) {
+    if (!forProfileUrlCheck[1]?.startsWith('/in/')) {
       throw new HttpException('Please input only profile url', 400);
     }
 
