@@ -1,15 +1,24 @@
-import { Controller, Get, Param, Query, Render } from '@nestjs/common';
-import { AppService } from './app.service';
-import axios from 'axios';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  HttpException,
+  Param,
+  Query,
+  Render,
+} from '@nestjs/common';
 import { CustomHttpService } from './shared/customHttpService';
-import { getLinkedinPage } from './parser';
+import { UserService } from './domain/users/user.service';
+import { isEmpty } from 'lodash';
+import { UserRepo } from './domain/users/user.repo';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService,
+    private readonly userService: UserService,
+    private readonly userRepo: UserRepo,
     private readonly customHttpService: CustomHttpService,
-  ) {}
+  ) { }
 
   @Get()
   @Render('index')
@@ -50,11 +59,23 @@ export class AppController {
   }
 
   @Get('profile')
-  async getWithRapidApi() {
+  async getWithRapidApi(@Query() param) {
+    if (!param?.url) throw new BadRequestException();
+
+    const profileId = (param.url as string).split('/in/')[1].split('/')[0];
+
+    const profileInDb = await this.userService.getByLinkedinProfileId(
+      profileId,
+    );
+
+    if (!isEmpty(profileInDb)) {
+      throw new HttpException('User already exist', 409);
+    }
+
     const profile = await this.customHttpService.post(
       'https://linkedin-profiles-and-company-data.p.rapidapi.com/profile-details',
       {
-        profile_id: 'muhammad-abdumalikov-89395b20a',
+        profile_id: profileId,
         profile_type: 'personal',
         contact_info: false,
         recommendations: false,
@@ -70,6 +91,20 @@ export class AppController {
         },
       },
     );
+
+    await this.userRepo.insert({
+      linkedin_profile_id: profile.profile_id,
+      first_name: profile.first_name,
+      last_name: profile.last_name,
+      profile_picture: profile.profile_picture,
+      skills: { data: profile.skills },
+      summary: profile.summary,
+      birth_date: profile.birth_date,
+      location: { data: profile.location },
+      position_groups: { data: profile.position_groups },
+      education: { data: profile.education },
+      industry: profile.industry,
+    });
 
     return profile;
   }
