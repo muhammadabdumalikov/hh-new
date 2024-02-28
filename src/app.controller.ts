@@ -101,7 +101,7 @@ export class AppController {
       },
     );
 
-    if (isEmpty(profile)) {
+    if (!(profile?.profile_id || profile.first_name)) {
       throw new HttpException('User not found', 404);
     }
 
