@@ -63,7 +63,7 @@ export class AppController {
     if (!param?.url) throw new BadRequestException();
     console.log(param.url);
 
-    const profileId = (param.url as string)?.split('/in/')[1].split('/')[0];
+    const profileId = (param.url as string)?.split('/in/')[1]?.split('/')[0];
 
     const forProfileUrlCheck = (param.url as string)?.split(
       'https://www.linkedin.com',
