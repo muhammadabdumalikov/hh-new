@@ -68,6 +68,12 @@ export class AppController {
       profileId,
     );
 
+    const forProfileUrlCheck = (param.url as string).split('https://www.linkedin.com');
+
+    if (!forProfileUrlCheck[1].startsWith('/in/')) {
+      throw new HttpException('Please input only profile url', 400);
+    }
+
     if (!isEmpty(profileInDb)) {
       throw new HttpException('User already exist', 409);
     }
