@@ -18,3 +18,5 @@ create table users(
 
 alter table users
 add column sub_title varchar(256);
+alter table users
+add column contact_info jsonb;

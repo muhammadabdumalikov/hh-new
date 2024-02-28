@@ -87,7 +87,7 @@ export class AppController {
       {
         profile_id: profileId,
         profile_type: 'personal',
-        contact_info: false,
+        contact_info: true,
         recommendations: false,
         related_profiles: false,
       },
@@ -118,6 +118,7 @@ export class AppController {
       location: { data: profile.location },
       position_groups: { data: profile.position_groups },
       education: { data: profile.education },
+      contact_info: { data: profile.contact_info },
       industry: profile.industry,
     });
 
