@@ -1,8 +1,10 @@
 export function formatLinkedinBirthDate(dateObj) {
   // Extract day, month, and year from the object
-  const { day = null, month = null, year = null } = dateObj;
+  const day = dateObj?.day;
+  const month = dateObj?.month;
+  const year = dateObj?.year;
 
-  if (day === null && month === null && year === null) {
+  if (!day && !month && !year) {
     return null;
   }
   // Ensure day and month are formatted as two digits with leading zeros
