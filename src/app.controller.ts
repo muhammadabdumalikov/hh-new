@@ -101,6 +101,10 @@ export class AppController {
       },
     );
 
+    if (isEmpty(profile)) {
+      throw new HttpException('User not found', 404);
+    }
+
     await this.userRepo.insert({
       linkedin_profile_id: profile.profile_id,
       first_name: profile.first_name,
