@@ -22,7 +22,7 @@ export class AppController {
     private readonly companyRepo: CompanyRepo,
     private readonly companyService: CompanyService,
     private readonly customHttpService: CustomHttpService,
-  ) { }
+  ) {}
 
   @Get()
   @Render('index')
@@ -213,7 +213,9 @@ export class AppController {
       specialities: { data: profile.details.specialities },
       urls: profile.details.urls,
       staff: profile.details.staff,
-      founded_year: Number(profile.details.founded?.year),
+      founded_year: profile.details.founded?.year
+        ? Number(profile.details.founded?.year)
+        : null,
       phone: profile.details.phone,
     });
 
@@ -239,7 +241,9 @@ export class AppController {
       specialities: { data: profile.details.specialities },
       urls: profile.details.urls,
       staff: profile.details.staff,
-      founded_year: Number(profile.details.founded?.year),
+      founded_year: profile.details.founded?.year
+        ? Number(profile.details.founded?.year)
+        : null,
       phone: profile.details.phone,
     };
   }
