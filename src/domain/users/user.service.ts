@@ -11,9 +11,6 @@ export class UserService {
   }
 
   async insertOne(param: ICreateUser) {
-    const data = this.userRepo.insert(param);
-    console.log(data.toQuery());
-
-    return data;
+    return this.userRepo.insert(param);
   }
 }
